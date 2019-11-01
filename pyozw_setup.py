@@ -637,36 +637,36 @@ class Template(object):
 
     def get_openzwave(self, url='https://codeload.github.com/OpenZWave/open-zwave/zip/master'):
         #Get openzwave
-        """download an archive to a specific location"""
-        dest,tail = os.path.split(self.openzwave)
-        dest_file = os.path.join(dest, 'open-zwave.zip')
-        if os.path.exists(self.openzwave):
-            if not self.cleanozw:
-                #~ log.info("Already have directory %s. Use it. Use --cleanozw to clean it.", self.openzwave)
-                return self.openzwave
-            else:
-                #~ log.info("Already have directory %s but remove and clean it as asked", self.openzwave)
-                self.clean_all()
-                try:
-                    os.remove(dest_file)
-                except Exception:
-                    pass
-        log.info("fetching {0} into {1} for version {2}".format(url, dest_file, pyozw_version))
-        if not os.path.exists(dest):
-            os.makedirs(dest)
-        try:
-            # py2
-            from urllib2 import urlopen
-        except ImportError:
-            # py3
-            from urllib.request import urlopen
-        req = urlopen(url)
-        with open(dest_file, 'wb') as f:
-            f.write(req.read())
-        import zipfile
-        zip_ref = zipfile.ZipFile(dest_file, 'r')
-        zip_ref.extractall(dest)
-        zip_ref.close()
+        # """download an archive to a specific location"""
+        # dest,tail = os.path.split(self.openzwave)
+        # dest_file = os.path.join(dest, 'open-zwave.zip')
+        # if os.path.exists(self.openzwave):
+        #     if not self.cleanozw:
+        #         #~ log.info("Already have directory %s. Use it. Use --cleanozw to clean it.", self.openzwave)
+        #         return self.openzwave
+        #     else:
+        #         #~ log.info("Already have directory %s but remove and clean it as asked", self.openzwave)
+        #         self.clean_all()
+        #         try:
+        #             os.remove(dest_file)
+        #         except Exception:
+        #             pass
+        # log.info("fetching {0} into {1} for version {2}".format(url, dest_file, pyozw_version))
+        # if not os.path.exists(dest):
+        #     os.makedirs(dest)
+        # try:
+        #     # py2
+        #     from urllib2 import urlopen
+        # except ImportError:
+        #     # py3
+        #     from urllib.request import urlopen
+        # req = urlopen(url)
+        # with open(dest_file, 'wb') as f:
+        #     f.write(req.read())
+        # import zipfile
+        # zip_ref = zipfile.ZipFile(dest_file, 'r')
+        # zip_ref.extractall(dest)
+        # zip_ref.close()
         return self.openzwave
 
     def clean_openzwave_so(self):
