@@ -642,10 +642,10 @@ class Template(object):
         # """download an archive to a specific location"""
         dest, tail = os.path.split(self.openzwave)
         dest_file = os.path.join(dest, 'open-zwave.zip')
-        # if os.path.exists(self.openzwave):
-        #     if not self.cleanozw:
-        #         #~ log.info("Already have directory %s. Use it. Use --cleanozw to clean it.", self.openzwave)
-        #         return self.openzwave
+        if os.path.exists(self.openzwave):
+            if not self.cleanozw:
+                #~ log.info("Already have directory %s. Use it. Use --cleanozw to clean it.", self.openzwave)
+                return self.openzwave
         #     else:
         #         #~ log.info("Already have directory %s but remove and clean it as asked", self.openzwave)
         #         self.clean_all()
@@ -654,8 +654,8 @@ class Template(object):
         #         except Exception:
         #             pass
         # log.info("fetching {0} into {1} for version {2}".format(url, dest_file, pyozw_version))
-        # if not os.path.exists(dest):
-        #     os.makedirs(dest)
+        if not os.path.exists(dest):
+            os.makedirs(dest)
         # try:
         #     # py2
         #     from urllib2 import urlopen
