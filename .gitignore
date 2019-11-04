@@ -59,7 +59,7 @@ venv3/
 .pypirc
 open-zwave-master/
 openzwave-git/
-openzwave-embed/
+#openzwave-embed/
 tmp/
 dist/
 docs/html/
