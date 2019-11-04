@@ -621,9 +621,11 @@ class Template(object):
             log.info("Get installed packages")
             try:
                 packages = pip.utils.get_installed_distributions()
+                print('All packages: {}'.format(packages))
             except Exception:
                 packages = []
             for pyreq in self.build_requires():
+                print('required: {}; already installed: {}'.format(pyreq, pyreq in packages))
                 if pyreq not in packages:
                     try:
                         log.info("Install minimal dependencies {0}".format(pyreq))
@@ -636,10 +638,10 @@ class Template(object):
             log.warn("Can't get package list from pip.")
 
     def get_openzwave(self, url='https://codeload.github.com/OpenZWave/open-zwave/zip/master'):
-        #Get openzwave
+        # Get openzwave
         # """download an archive to a specific location"""
-        # dest,tail = os.path.split(self.openzwave)
-        # dest_file = os.path.join(dest, 'open-zwave.zip')
+        dest, tail = os.path.split(self.openzwave)
+        dest_file = os.path.join(dest, 'open-zwave.zip')
         # if os.path.exists(self.openzwave):
         #     if not self.cleanozw:
         #         #~ log.info("Already have directory %s. Use it. Use --cleanozw to clean it.", self.openzwave)
@@ -663,10 +665,10 @@ class Template(object):
         # req = urlopen(url)
         # with open(dest_file, 'wb') as f:
         #     f.write(req.read())
-        # import zipfile
-        # zip_ref = zipfile.ZipFile(dest_file, 'r')
-        # zip_ref.extractall(dest)
-        # zip_ref.close()
+        import zipfile
+        zip_ref = zipfile.ZipFile(dest_file, 'r')
+        zip_ref.extractall(dest)
+        zip_ref.close()
         return self.openzwave
 
     def clean_openzwave_so(self):
