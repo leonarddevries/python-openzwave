@@ -346,7 +346,14 @@ class Template(object):
 
         elif sys.platform.startswith("linux"):
             log.info("Build openzwave ... be patient ...")
-            proc = Popen('make', stdout=PIPE, stderr=PIPE, cwd='{0}'.format(self.openzwave))
+            try:
+                import os
+                log.info('Env: {}'.format(os.environ))
+                log.info('TARGET_CXXFLAGS: {}'.format(os.getenv('TARGET_CXXFLAGS')))
+            except Exception as msg:
+                log.error("Error! {}".format(msg))
+            proc = Popen(['make', 'V=sc'], stdout=PIPE, stderr=PIPE, cwd='{0}'.format(self.openzwave))
+
 
         else:
             # Unknown systemm
@@ -415,7 +422,7 @@ class Template(object):
             proc = Popen([ 'make', 'PREFIX=/opt/local', 'install' ], stdout=PIPE, stderr=PIPE, cwd='{0}'.format(self.openzwave))
 
         elif sys.platform.startswith("linux"):
-            proc = Popen([ 'make', 'install' ], stdout=PIPE, stderr=PIPE, cwd='{0}'.format(self.openzwave))
+            proc = Popen([ 'make', 'install', 'V=s'], stdout=PIPE, stderr=PIPE, cwd='{0}'.format(self.openzwave))
 
         else:
             # Unknown systemm
