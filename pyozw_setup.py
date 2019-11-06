@@ -266,6 +266,7 @@ class Template(object):
             return ['Cython==0.28.6']
 
     def build(self):
+        import os
         if len(self.ctx['extra_objects']) == 1 and os.path.isfile(self.ctx['extra_objects'][0]):
             log.info("Use cached build of openzwave")
             return True
@@ -1058,7 +1059,7 @@ class openzwave_config(setuptools.Command):
 
     def run(self):
         if self.install_dir is None:
-            log.warning("Can't install ozw_config to None")
+            log.warn("Can't install ozw_config to None")
             return
         if not current_template.copy_openzwave_config:
             log.info("Don't install ozw_config for template {0}".format(current_template))
@@ -1071,7 +1072,7 @@ class openzwave_config(setuptools.Command):
                 import shutil
                 shutil.rmtree(dest)
             except Exception:
-                log.exception("Can't remove old config directory")
+                log.error("Can't remove old config directory")
         if not os.path.isdir(dest):
             os.makedirs(dest)
         self.copy_tree(os.path.join(current_template.openzwave,'config'), dest)
