@@ -349,8 +349,21 @@ class Template(object):
             log.info("Build openzwave ... be patient ...")
             try:
                 import os
+                CFLAGS = os.getenv('CFLAGS')
                 log.info('Env: {}'.format(os.environ))
-                log.info('TARGET_CXXFLAGS: {}'.format(os.getenv('TARGET_CXXFLAGS')))
+                log.info('Flags before: {}'.format(CFLAGS))
+                CFLAGS = CFLAGS.replace('-mfpu=neon-vfpv4', '').replace('-fhonour-copts', '').replace('-mfloat-abi=hard', '')
+                for _ in range(10):
+                    if CFLAGS.find('-iremap') != -1:
+                        i_start = CFLAGS.find('-iremap')
+                        i_end = CFLAGS.find(' ', i_start)
+                        log.info('Removing flag:  {}'.format(CFLAGS[i_start:i_end+1]))
+                        CFLAGS = CFLAGS[0: i_start:] + CFLAGS[i_end + 1::]
+                    else:
+                        break
+                log.info('Flags after: {}'.format(CFLAGS))
+                os.putenv('CFLAGS', CFLAGS)
+                log.info('Flags after (check): {}'.format(os.getenv('CFLAGS')))
             except Exception as msg:
                 log.error("Error! {}".format(msg))
             proc = Popen(['make', 'V=sc'], stdout=PIPE, stderr=PIPE, cwd='{0}'.format(self.openzwave))
